@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #f6f8f7;
+  --color-surface: #ffffff;
+  --color-ink: #0c1f1a;
+  --color-muted: #64736e;
+  --color-line: #e8eceb;
+  --color-track: #edf0ef;
+
+  --color-brand: #0e6b52;
+  --color-brand-600: #0b5a45;
+  --color-brand-soft: #e5f4ee;
+  --color-leaf: #3fae49;
+
+  --color-protein: #22b07d;
+  --color-carbs: #f5b829;
+  --color-fat: #f0679f;
+  --color-fibre: #72bf44;
+  --color-sugar: #8b7cf6;
+  --color-sodium: #64748b;
+
+  --color-danger: #e5484d;
+  --color-danger-soft: #fdecec;
+  --color-warn: #b7791f;
+  --color-warn-soft: #fdf3dc;
+  --color-limit: #5b5bd6;
+  --color-limit-soft: #ececfb;
+  --color-flame: #ef5a3c;
+  --color-flame-soft: #fdebe6;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --radius-card: 1.25rem;
+  --shadow-card: 0 1px 2px rgb(12 31 26 / 0.04), 0 4px 16px rgb(12 31 26 / 0.04);
+}
+
+html {
+  color-scheme: light;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .card {
+    @apply rounded-[var(--radius-card)] bg-surface p-4 shadow-[var(--shadow-card)];
+  }
+  .h-display {
+    @apply text-[2rem] leading-[1.05] font-extrabold tracking-tight text-ink;
+  }
+  .btn-primary {
+    @apply inline-flex h-14 w-full items-center justify-center gap-2 rounded-full bg-brand px-6 text-lg font-semibold text-white transition active:scale-[0.99] active:bg-brand-600 disabled:opacity-50;
+  }
+  .btn-outline {
+    @apply inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border-2 border-brand bg-surface px-5 font-semibold text-brand transition active:scale-[0.99] disabled:opacity-50;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center gap-1 text-sm font-medium text-brand;
+  }
+  .input {
+    @apply h-12 w-full rounded-xl border border-line bg-surface px-3 text-base text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/15;
+  }
+  .label {
+    @apply mb-1 block text-sm text-muted;
+  }
+  .seg {
+    @apply flex rounded-full bg-track p-1;
+  }
+  .seg > button {
+    @apply flex-1 rounded-full px-3 py-2 text-sm font-medium text-muted transition;
+  }
+  .seg > button[aria-pressed="true"] {
+    @apply bg-brand text-white shadow-sm;
+  }
+}
