@@ -41,3 +41,10 @@ yarn-error.log*
 next-env.d.ts
 
 !.env.example
+
+# serwist (generated at build time)
+/public/sw.js
+/public/sw.js.map
+/public/swe-worker*
+/public/workbox-*
+/public/worker-*
