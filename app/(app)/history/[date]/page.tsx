@@ -6,7 +6,7 @@ import { ChevronLeft } from "@/components/icons";
 import { MealItemRow } from "@/components/MealItemRow";
 import { NutrientStrip } from "@/components/NutrientStrip";
 import { ReviewCard } from "@/components/ReviewCard";
-import { Bar, Card, fmt, fmtKcal } from "@/components/ui";
+import { Bar, Card, fmt, fmtKcal, OVER_AT } from "@/components/ui";
 import { getReview, getSnapshot, liveTargets, mealsOn, today, tz } from "@/lib/data";
 import { dayStatus, sumTotals } from "@/lib/nutrition";
 import type { Totals } from "@/lib/schemas";
@@ -76,7 +76,7 @@ export default async function DayPage({ params }: { params: Promise<{ date: stri
                           </span>
                         </span>
                       </div>
-                      <Bar value={actual} target={target} color={r.color} />
+                      <Bar value={actual} target={target} color={r.color} overAt={OVER_AT[r.actual]} />
                     </li>
                   );
                 })}

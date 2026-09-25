@@ -13,6 +13,8 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
   const { summary: s, live } = h;
   const ticks = chartTicks(h.dates, range);
   const chart = { points: h.points, ticks, range };
+  // `s` covers completed days only; today's meals still count for charts and the list.
+  const anyMeals = h.days.some((d) => d.mealCount > 0);
 
   return (
     <div className="space-y-3">
@@ -20,7 +22,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
       <h1 className="h-display">History</h1>
       <RangeToggle value={range} />
 
-      {s.loggedDays === 0 ? (
+      {!anyMeals ? (
         <section className="card space-y-3 py-8 text-center">
           <p className="font-bold">Nothing logged in the last {range} days</p>
           <p className="text-sm text-muted">Log a meal and your trends will show up here.</p>
@@ -29,6 +31,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
           </Link>
         </section>
       ) : (
+        s.loggedDays > 0 && (
         <div className="grid grid-cols-3 gap-2">
           <StatTile icon={<FlameIcon />} tone="flame" label="Avg calories" value={fmtKcal(s.avgKcal)} unit="kcal/day" />
           <StatTile icon={<BarsIcon />} tone="brand" label="Avg protein" value={`${fmt(s.avgProtein)}g`} unit="/day" />
@@ -40,6 +43,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
             unit="days"
           />
         </div>
+        )
       )}
 
       {live && (
@@ -50,20 +54,16 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
         </div>
       )}
 
-      {s.loggedDays > 0 && (
+      {anyMeals && (
         <>
           <KcalChart {...chart} />
           <MacroChart {...chart} />
         </>
       )}
-      {(s.loggedDays > 0 || h.hasWeights) && <WeightChart {...chart} current={h.currentWeight} />}
+      {(anyMeals || h.hasWeights) && <WeightChart {...chart} current={h.currentWeight} />}
 
-      {s.loggedDays > 0 && (
-        <>
-          <OnTrackCard onTarget={s.onTargetDays} logged={s.loggedDays} />
-          <RecentDays days={h.days} />
-        </>
-      )}
+      {s.loggedDays > 0 && <OnTrackCard onTarget={s.onTargetDays} logged={s.loggedDays} />}
+      {anyMeals && <RecentDays days={h.days} />}
     </div>
   );
 }

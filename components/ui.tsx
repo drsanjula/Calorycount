@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { pct } from "@/lib/nutrition";
+import type { Totals } from "@/lib/schemas";
 
 export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <section className={`card ${className}`}>{children}</section>;
@@ -40,8 +41,12 @@ export function StatTile({
   );
 }
 
-export function Bar({ value, target, color }: { value: number; target: number; color: string }) {
-  const over = target > 0 && value > target;
+/**
+ * Progress bar. `overAt` is the value/target ratio past which the bar turns
+ * red; omit it for targets where going over isn't bad (protein, fibre, …).
+ */
+export function Bar({ value, target, color, overAt }: { value: number; target: number; color: string; overAt?: number }) {
+  const over = overAt !== undefined && target > 0 && value > target * overAt;
   return (
     <div className="h-2 w-full overflow-hidden rounded-full bg-track">
       <div
@@ -99,3 +104,6 @@ export function PageHeader({ title, subtitle, right }: { title: string; subtitle
 export const fmt = (n: number, digits = 0) =>
   n.toLocaleString("en-US", { maximumFractionDigits: digits, minimumFractionDigits: 0 });
 export const fmtKcal = (n: number) => fmt(Math.round(n / 10) * 10);
+
+/** Ratios past which a nutrient counts as "over": the kcal limit (with the ±5% on-target band) and the max limits. */
+export const OVER_AT: Partial<Record<keyof Totals, number>> = { kcal: 1.05, sugar_g: 1, sodium_mg: 1 };

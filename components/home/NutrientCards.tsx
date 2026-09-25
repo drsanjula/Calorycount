@@ -67,7 +67,7 @@ export function SugarSodiumCard({ totals, targets }: { totals: Totals; targets: 
                   {r.unit} max
                 </span>
               </p>
-              <Bar value={r.value} target={r.max} color={r.color} />
+              <Bar value={r.value} target={r.max} color={r.color} overAt={1} />
             </div>
           </div>
         ))}
